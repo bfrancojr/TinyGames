@@ -15,9 +15,9 @@ In order to proper play these games, you have to have:
 - [Tinyscreen OLED Display](https://tiny-circuits.com/tinyscreen.html)
 - (Optional) [Battery](https://tiny-circuits.com/tiny-duino-lithium-140mah.html)
 
-[Codebender](https://codebender.cc/sketch:115218)
+This project is also hosted @ [Codebender](https://codebender.cc/sketch:115218)
 
-Forked Projects:
+Original forked projects:
 
 [TinyScreen Pong](https://codebender.cc/sketch:82649)
 [Flappy Birds](https://codebender.cc/sketch:96134)
