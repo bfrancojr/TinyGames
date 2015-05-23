@@ -1,7 +1,7 @@
 TinyGames
 =========
 
-A companion of three 3 games I've found, improved or developed for Tinyduino.
+A companion of 3 games I've found, improved or developed for Tinyduino.
 
 - Pong
 - Flappy Birds
