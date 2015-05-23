@@ -282,7 +282,7 @@ byte flappyLoop()
   getJoystick();
 
   // Fast wing flap, move bird up
-  if (joystick.LY > 200)
+  if (joystick.LY > 200 || joystick.RY > 200)
   {
     wingPos = (framecount) % 3;
     flappyBirdY -= (birdYmod * 2);

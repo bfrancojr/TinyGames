@@ -257,6 +257,7 @@ static void endGame()
     writeHighScore(highScore);
     newHighScore();
   } else {
+    displayInt(28, 5, lenght);
     gameOver();
   }
   snakeBorn();
@@ -334,16 +335,16 @@ static byte getPlayerDir()
   
   getJoystick();
 
-  if (joystick.LX > 200) {
+  if (joystick.LX > 200 || joystick.RX > 200) {
     return (snakeDir != LEFT) ? RIGHT : snakeDir;
   }
-  if (joystick.LX < -200) {
+  if (joystick.LX < -200 || joystick.RX < -200) {
     return (snakeDir != RIGHT) ? LEFT : snakeDir;
   }
-  if (joystick.LY < -200) {
+  if (joystick.LY < -200 || joystick.RY < -200) {
     return (snakeDir != UP) ? DOWN : snakeDir;
   }
-  if (joystick.LY > 200) {
+  if (joystick.LY > 200 || joystick.RY > 200) {
     return (snakeDir != DOWN) ? UP : snakeDir;
   }
   return snakeDir;

@@ -77,8 +77,10 @@ void loop()
   {
     int LY = joystick.LY;
     int LX = joystick.LX;
+    int RY = joystick.RY;
+    int RX = joystick.RX;
 
-    if (abs(LY) > 200)
+    if (abs(LY) > 200 || abs(RY) > 200)
     {
       char prevGame = currentGame;
       currentGame += (LY > 0) ? -1 : 1;
@@ -97,12 +99,12 @@ void loop()
       do {
         delay(50);
         getJoystick();
-      } while (abs(LY - joystick.LY) < 20);
+      } while (abs(LY - joystick.LY) < 20 && abs(RY - joystick.RY) < 20);
       delay(200);
       return;
     }
 
-    if (abs(LX) > 200)
+    if (abs(LX) > 200 || abs(RX) > 200)
     {
       delay(200);
       gameSelected = currentGame;
