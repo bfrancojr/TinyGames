@@ -19,5 +19,5 @@ This project is also hosted @ [Codebender](https://codebender.cc/sketch:115218)
 
 Original forked projects:
 
-[TinyScreen Pong](https://codebender.cc/sketch:82649)
-[Flappy Birds](https://codebender.cc/sketch:96134)
+- [TinyScreen Pong](https://codebender.cc/sketch:82649)
+- [Flappy Birds](https://codebender.cc/sketch:96134)
