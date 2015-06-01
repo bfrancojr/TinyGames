@@ -7,6 +7,8 @@
 #include "TinyGames.h"
 #include <EEPROM.h>
 
+#define CODEBENDER 0
+
 static const gameEntry games[] = {
   { "Pong",		pong,		pongLoop },
   { "Flappy Birds",	flappy,		flappyLoop },
@@ -67,6 +69,7 @@ static void menu()
 void gameOver()
 {
   blink(1, 25, "GAME OVER", YELLOW);
+  delay(1000);
 }
 
 void loop()
@@ -189,23 +192,56 @@ void blinkInt(int x, int y, int val, int color)
   blink(x, y, itoa(val, buf, 10), color);
 }
 
+byte readEEPROMByte(int address)
+{
+  byte value;
+
+#if CODEBENDER  
+  value = EEPROM.read(address);
+#else
+  EEPROM.get(address, value);
+#endif
+  return value;
+}
+
+void writeEEPROMByte(int address, byte value)
+{
+#if CODEBENDER  
+  EEPROM.write(address, value);
+#else
+  EEPROM.put(address, value);
+#endif
+}
+
+int readEEPROMInt(int address)
+{
+  return readEEPROMByte(address) + 256 * readEEPROMByte(address+1);
+}
+
+void writeEEPROMInt(int address, int value)
+{
+  writeEEPROMByte(address, value % 256);
+  writeEEPROMByte(address+1, value / 256);
+}
+
 int readHighScore()
 {
+  static byte MAGIC_NUMBER = 0xa5;
   int highScore;
-  byte ec = EEPROM.read(HSC_ADDRESS);
+  byte ec = readEEPROMByte(HSC_ADDRESS);
   
-  if (ec == 0xa5) {
-    EEPROM.get(HSV_ADDRESS, highScore);
+  if (ec == MAGIC_NUMBER) {
+    highScore = readEEPROMInt(HSV_ADDRESS);
   } else {
     highScore = 0;
-    EEPROM.put(HSV_ADDRESS, highScore);
-    EEPROM.write(HSC_ADDRESS, 0xa5);
+    writeEEPROMInt(HSV_ADDRESS, highScore);
+    writeEEPROMByte(HSC_ADDRESS, MAGIC_NUMBER);
   }
   return highScore;
 }
 
 void writeHighScore(int highScore)
 {
-  EEPROM.put(HSV_ADDRESS, highScore);
+  writeEEPROMInt(HSV_ADDRESS, highScore);
 }
 

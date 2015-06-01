@@ -4,7 +4,6 @@
 #include "TinyGames.h"
 
 enum {
-  NADA,
   UP,
   DOWN,
   RIGHT,
@@ -19,12 +18,6 @@ enum {
 #define SCREEN_FACTOR_Y   (SCREEN_HEIGHT / OBJECTS_SIZE)
 
 #define MAX_TURNS 20
-
-#define GET_LSN(a) ((a) & 0x0f)
-#define GET_MSN(a) GET_LSN((a) >> 4)
-
-#define SET_LSN(a, b) a = ((a) & 0xf0) | GET_LSN(b)
-#define SET_MSN(a, b) a = GET_LSN(a) | (((b) << 4) & 0xf0)
 
 typedef struct {
   byte x;
@@ -53,23 +46,18 @@ static byte segmentsCount;
 static int highScore = 0;
 static int lenght;
 
-static byte turns[MAX_TURNS / 2]; // in nibbles
+static byte turns[MAX_TURNS / 4]; // 2 bits each
 static byte segments[MAX_TURNS];
 static byte reflection[(SCREEN_FACTOR_X * SCREEN_FACTOR_Y) / sizeof(byte)]; // bit array
 
 static byte getTurn(byte idx)
 {
-  byte dir = turns[idx / 2];
-  return (idx % 2 != 0) ? GET_MSN(dir) : GET_LSN(dir);
+  return (turns[idx/4] >> (2 * (idx % 4))) & 0x03;
 }
 
 static void setTurn(byte idx, byte dir)
 {
-  if (idx % 2) {
-    SET_MSN(turns[idx / 2], dir);
-  } else {
-    SET_LSN(turns[idx / 2], dir);
-  }
+  turns[idx/4] = (turns[idx/4] & ~(0x03 << 2 * (idx % 4))) | ((dir & 0x03) << (2 * (idx % 4)));
 }
 
 static byte getSegment(byte idx)
